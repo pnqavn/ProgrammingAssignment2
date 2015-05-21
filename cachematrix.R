@@ -3,16 +3,18 @@
 
 ## This function creates a special "matrix" object that can cache its inverse
 
-makeCacheMatrix <- function(x = matrix()) {
+makeCacheMatrix <- function (x = matrix()) {
 inverse <- NULL
-set <- function(Y){
-	X <<- Y
+set <- function(y){
+	x <<- y
 	inverse <<- NULL
 	}
-get <- function() X
-setinverse <- function(Inverse) inverse <<- Inverse
+get <- function() x
+setinverse <- function (inverse) inverse <<- Inverse
 getinverse <- function() inverse
-list(set=set,get=get,setinverse=setinverse,getinverse=getinverse)
+list(set=set,get=get,
+setinverse=setinverse,
+getinverse=getinverse)
 }
 
 
@@ -22,22 +24,22 @@ list(set=set,get=get,setinverse=setinverse,getinverse=getinverse)
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
 if(require("corpcor")){
-	print("corpcor is loaded correctly")
+	print("correctly loaded")
 	} else {
-		print("trying to install corpcor")
+		print("installing")
 		install.packages("corpcor")
 		if(require(corpcor)){
-			print("corpcor installed and loaded")
+			print("loaded and installed")
 			} else {
 			stop("could not install corpcor")
 			}
 		}
 inverse <- X$getinverse()
 if(!is.null(inverse)){
-	message("matrix is in memory")
+	message("matrix in memory")
 	return(inverse)
 	}
-message("inverse is not in memory so the inverse (if exist) is gonna be computed")
+message("inverse not in memory, inverse is being computed")
 data <- X$get()
 inverse <- pseudoinverse(data, ...)
 X$setinverse(inverse)
